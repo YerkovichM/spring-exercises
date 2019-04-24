@@ -5,9 +5,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @NoArgsConstructor
 @Getter
@@ -45,8 +52,7 @@ public class Role {
         if (!(o instanceof Role)) return false;
 
         Role role = (Role) o;
-
-        return Objects.equals(id, role.id);
+        return id != null && id.equals(role.id);
     }
 
     @Override

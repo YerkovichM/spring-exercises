@@ -13,6 +13,7 @@
         <module>account-jsp</module>
         <module>account-rest-api</module>
         <module>transactional-user-service</module>
+        <module>enhanced-user-service</module>
         <module>spring-exercises-model</module>
         <module>spring-exercises-util</module>
     </modules>
