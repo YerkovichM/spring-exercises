@@ -1,5 +1,6 @@
 package ua.procamp.dao.impl;
 
+import org.springframework.stereotype.Component;
 import ua.procamp.dao.AccountDao;
 import ua.procamp.exception.EntityNotFountException;
 import ua.procamp.model.Account;
@@ -14,27 +15,37 @@ import java.util.Map;
  * <p>
  * todo: 1. Configure a component with name "accountDao"
  */
+@Component("accountDao")
 public class InMemoryAccountDao implements AccountDao {
     private Map<Long, Account> accountMap = new HashMap<>();
+    private long idSequence = 1L;
 
     @Override
     public List<Account> findAll() {
-        throw new UnsupportedOperationException("Keep calm and implement the method");
+        return new ArrayList<>(accountMap.values());
     }
 
     @Override
     public Account findById(long id) {
-        throw new UnsupportedOperationException("Keep calm and implement the method");
+        Account account = accountMap.get(id);
+        if (account == null) {
+            throw new EntityNotFountException(String.format("Cannot found account by id = %d", id));
+        }
+        return account;
     }
 
     @Override
     public Account save(Account account) {
-        throw new UnsupportedOperationException("Keep calm and implement the method");
+        if (account.getId() == null) {
+            account.setId(idSequence++);
+        }
+        accountMap.put(account.getId(), account);
+        return account;
     }
 
     @Override
     public void remove(Account account) {
-        throw new UnsupportedOperationException("Keep calm and implement the method");
+        accountMap.remove(account.getId());
     }
 
     public void clear() {

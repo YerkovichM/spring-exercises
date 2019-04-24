@@ -1,6 +1,20 @@
 package ua.procamp.web.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import ua.procamp.dao.AccountDao;
+import ua.procamp.model.Account;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -16,6 +30,45 @@ import ua.procamp.dao.AccountDao;
  * todo: 7. Implement method that handles DELETE request with id as path variable removes an account by id
  * todo:    Configure HTTP response status code 204 - NO CONTENT
  */
+@RestController
+@RequestMapping("/accounts")
 public class AccountRestController {
+	private final AccountDao accountDao;
+
+	public AccountRestController(AccountDao accountDao) {
+		this.accountDao = accountDao;
+	}
+
+	@GetMapping
+	public List<Account> getAll() {
+		return accountDao.findAll();
+	}
+
+	@GetMapping("/{id}")
+	public Account getOne(@PathVariable long id) {
+		return accountDao.findById(id);
+	}
+
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public Account create(@RequestBody Account account) {
+		return accountDao.save(account);
+	}
+
+	@PutMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void update(@PathVariable long id, @RequestBody Account account) {
+		if (!Objects.equals(id, account.getId())) {
+			throw new IllegalStateException("Id parameter does not match account body value");
+		}
+		accountDao.save(account);
+	}
+
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remove(@PathVariable long id) {
+		Account account = accountDao.findById(id);
+		accountDao.remove(account);
+	}
 
 }

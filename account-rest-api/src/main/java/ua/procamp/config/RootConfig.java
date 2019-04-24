@@ -1,5 +1,7 @@
 package ua.procamp.config;
 
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -10,5 +12,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * todo: 2. Enable component scanning for all packages in "ua.procamp" using annotation property "basePackages"
  * todo: 3. Exclude web related config and beans (ignore @{@link Controller}, ignore {@link EnableWebMvc})
  */
+@Configuration
+@ComponentScan(basePackages = "ua.procamp", excludeFilters = {@ComponentScan.Filter(EnableWebMvc.class), @ComponentScan.Filter(Controller.class)})
 public class RootConfig {
 }
+
