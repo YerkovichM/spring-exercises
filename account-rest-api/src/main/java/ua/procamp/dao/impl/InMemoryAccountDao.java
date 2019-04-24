@@ -16,34 +16,25 @@ import java.util.Map;
  */
 public class InMemoryAccountDao implements AccountDao {
     private Map<Long, Account> accountMap = new HashMap<>();
-    private long idSequence = 1L;
 
     @Override
     public List<Account> findAll() {
-        return new ArrayList<>(accountMap.values());
+        throw new UnsupportedOperationException("Keep calm and implement the method");
     }
 
     @Override
     public Account findById(long id) {
-        Account account = accountMap.get(id);
-        if (account == null) {
-            throw new EntityNotFountException(String.format("Cannot found account by id = %d", id));
-        }
-        return account;
+        throw new UnsupportedOperationException("Keep calm and implement the method");
     }
 
     @Override
     public Account save(Account account) {
-        if (account.getId() == null) {
-            account.setId(idSequence++);
-        }
-        accountMap.put(account.getId(), account);
-        return account;
+        throw new UnsupportedOperationException("Keep calm and implement the method");
     }
 
     @Override
     public void remove(Account account) {
-        accountMap.remove(account.getId());
+        throw new UnsupportedOperationException("Keep calm and implement the method");
     }
 
     public void clear() {
