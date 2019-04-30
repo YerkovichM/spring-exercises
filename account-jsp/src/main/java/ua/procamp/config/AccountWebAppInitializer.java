@@ -2,6 +2,8 @@ package ua.procamp.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.persistence.criteria.Root;
+
 /**
  * This class is used to configure DispatcherServlet and links it with application config classes
  * <p>
@@ -12,16 +14,16 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class AccountWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        throw new UnsupportedOperationException("It's your job to implement this method!");
+        return new Class[]{RootConfig.class};
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        throw new UnsupportedOperationException("It's your job to implement this method!");
+        return new Class[]{WebConfig.class};
     }
 
     @Override
     protected String[] getServletMappings() {
-        throw new UnsupportedOperationException("It's your job to implement this method!");
+        return new String[]{"/"};
     }
 }

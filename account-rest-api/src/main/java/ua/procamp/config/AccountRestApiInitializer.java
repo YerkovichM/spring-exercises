@@ -3,6 +3,7 @@ package ua.procamp.config;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class AccountRestApiInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{RootConfig.class};
@@ -17,4 +18,5 @@ public class AccountRestApiInitializer extends AbstractAnnotationConfigDispatche
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
+
 }

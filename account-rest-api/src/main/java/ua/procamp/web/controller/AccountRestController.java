@@ -1,6 +1,13 @@
 package ua.procamp.web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import ua.procamp.dao.AccountDao;
+import ua.procamp.model.Account;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,6 +23,50 @@ import ua.procamp.dao.AccountDao;
  * todo: 7. Implement method that handles DELETE request with id as path variable removes an account by id
  * todo:    Configure HTTP response status code 204 - NO CONTENT
  */
+
+@RestController
+@RequestMapping("/accounts")
 public class AccountRestController {
+
+    private AccountDao dao;
+
+    @Autowired
+    public AccountRestController(AccountDao dao) {
+        this.dao = dao;
+    }
+
+    @GetMapping
+    public List<Account> getAccounts(){
+        return dao.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Account getAccounts(@PathVariable int id){
+        return dao.findById(id);
+    }
+
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Account getAccounts(@RequestBody Account account){
+        return dao.save(account);
+    }
+
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void putAccount(@PathVariable int id,@RequestBody Account account){
+        if(id != account.getId()){
+            throw new IllegalStateException();
+        }
+        dao.save(account);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAccount(@PathVariable int id){
+        Account account = dao.findById(id);
+        dao.remove(account);
+    }
 
 }

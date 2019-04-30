@@ -1,5 +1,8 @@
 package ua.procamp.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.procamp.dao.UserRepository;
 import ua.procamp.exception.EntityNotFoundException;
 import ua.procamp.model.jpa.RoleType;
@@ -17,16 +20,29 @@ import java.util.List;
  * todo: 3. In case user is not found by email, throw {@link EntityNotFoundException} with message "Cannot find user by email ${email}"
  * todo: 4. Implement {@link UserService#addRoleToAllUsers(RoleType)} using {@link UserRepository}
  */
+@Service
 public class UserService {
-    public List<User> findByCity(String city) {
-        throw new UnsupportedOperationException("Do your best and implement this method!");
+
+    final
+    UserRepository repository;
+
+    @Autowired
+    public UserService(UserRepository repository) {
+        this.repository = repository;
     }
 
-    public User getByEmail(String email) {
-        throw new UnsupportedOperationException("Do your best and implement this method!");
+    @Transactional(readOnly = true)
+    public List<User> findByCity(String city) {
+        return repository.findAllByAddressCity(city);
+    }
+
+    @Transactional(readOnly = true)
+    public User getByEmail(final String email) {
+        return repository.findByEmailFetchRoles(email)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find user by email " + email));
     }
 
     public void addRoleToAllUsers(RoleType roleType) {
-        throw new UnsupportedOperationException("Do your best and implement this method!");
+        repository.addRoleToAllUsers(roleType);
     }
 }
